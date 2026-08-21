@@ -54,7 +54,7 @@ export default function Page() {
           <p className="hero-greeting">Hi , I am Mohamed</p>
           <h1>A Software Engineer Specialized in Full Stack Web &amp; Mobile Development.</h1>
           <p className="hero-text">I build Scalable High Quality Web &amp; Mobile Apps with experience of 10 years.<br />I create apps for both android and ios with flutter cross platform Framework.<br />and I code websites in Node.js, React and Next.js.</p>
-          <div className="button-row"><a href="#about" className="button button-primary">Learn More</a><a href="#services" className="button button-outline">Learn More</a></div>
+          <div className="button-row"><a href="/contact" className="button button-primary">Let&apos;s Create a Project</a><a href="/about" className="button button-outline">Learn More</a></div>
         </div>
         <img className="hero-image" src="/header.png" alt="Mohamed Abouelsaad" />
       </section>
