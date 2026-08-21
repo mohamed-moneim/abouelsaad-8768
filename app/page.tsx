@@ -9,11 +9,23 @@ const serviceImages = [
   'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=1200&q=85',
 ]
 
-const portfolioImages = [
-  'https://images.unsplash.com/photo-1559757175-0eb30cd8c063?auto=format&fit=crop&w=1200&q=85',
-  'https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&w=1200&q=85',
-  'https://images.unsplash.com/photo-1542744094-3a31f272c490?auto=format&fit=crop&w=1200&q=85',
-]
+const portfolioProjects = {
+  web: [
+    ['https://images.unsplash.com/photo-1559757175-0eb30cd8c063?auto=format&fit=crop&w=1200&q=85', 'Clinic management web platform'],
+    ['https://images.unsplash.com/photo-1542744094-3a31f272c490?auto=format&fit=crop&w=1200&q=85', 'Tanker logistics dashboard'],
+    ['https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=85', 'SaaS analytics workspace'],
+  ],
+  mobile: [
+    ['https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&w=1200&q=85', 'UCard mobile experience'],
+    ['https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=1200&q=85', 'Flutter commerce app'],
+    ['https://images.unsplash.com/photo-1555774698-0b77e0d5fac6?auto=format&fit=crop&w=1200&q=85', 'Cross-platform travel app'],
+  ],
+  self: [
+    ['https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=1200&q=85', 'Personal productivity toolkit'],
+    ['https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=85', 'Developer learning hub'],
+    ['https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=85', 'Open-source starter kit'],
+  ],
+} as const
 
 const blogImages = [
   'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=1200&q=85',
@@ -28,6 +40,14 @@ function SectionTitle({ eyebrow, title }: { eyebrow?: string; title: string }) {
       <h2><span />{title}</h2>
     </div>
   )
+}
+
+function PortfolioSection() {
+  const [category, setCategory] = useState<keyof typeof portfolioProjects>('web')
+  const projects = portfolioProjects[category]
+  const tabs = [['web', 'Web Apps'], ['mobile', 'Mobile Apps'], ['self', 'Self Projects']] as const
+
+  return <section id="portfolio" className="section-wrap portfolio"><p className="muted">Some of my previous work</p><SectionTitle title="Portfolio" /><div className="filter-row" role="tablist" aria-label="Portfolio categories">{tabs.map(([value, label]) => <button key={value} role="tab" aria-selected={category === value} className={`button ${category === value ? 'button-primary' : 'button-outline'}`} onClick={() => setCategory(value)}>{label}</button>)}</div><div className="portfolio-grid">{projects.map(([src, alt]) => <img key={src} src={src} alt={alt} />)}</div></section>
 }
 
 export default function Page() {
@@ -61,7 +81,7 @@ export default function Page() {
 
       <section id="services" className="section-wrap services"><SectionTitle title="My Services" /><p className="mono intro">I build high quality apps as a Full-Stack Developer in Node.js,<br />React, Tailwind.I own high skills in Front End and Back End.<br />I can create E-commerce Projects,SAAS Projects, Landing Pages.</p><div className="service-grid">{serviceImages.map((src, i) => <article key={src}><img src={src} alt="" /><p className="mono">{['Web and UI Design', 'Web Apps Development', 'Mobile Development'][i]}</p></article>)}</div></section>
 
-      <section id="portfolio" className="section-wrap portfolio"><p className="muted">Some of my previous work</p><SectionTitle title="Portfolio" /><div className="filter-row">{['Web Apps', 'Mobile Apps', 'Personal Projects'].map(x => <button key={x} className="button button-outline">{x}</button>)}</div><div className="portfolio-grid">{portfolioImages.map((src, i) => <img key={src} src={src} alt={['Clinic system project', 'UCard project', 'Tanker project'][i]} />)}</div></section>
+      <PortfolioSection />
 
       <section id="about" className="section-wrap about"><div><SectionTitle title="About Me" /><p className="mono about-copy">Hi, I am Mohamed, a Software Engineer specializing in Web and SaaS Applications. I have worked in the software development field since 2016, gaining experience at companies across Egypt, India, and Saudi Arabia. Additionally, I work as a freelancer for both companies and individuals. Beyond web applications, I have extensive experience with Flutter, the cross-platform mobile development framework, alongside foundational knowledge of native Android and ios development using Kotlin and Swift.</p></div><img src="about.png" alt="Mohamed outdoors" /></section>
 
