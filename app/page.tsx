@@ -32,7 +32,7 @@ function SectionTitle({ eyebrow, title }: { eyebrow?: string; title: string }) {
 
 export default function Page() {
   const [menuOpen, setMenuOpen] = useState(false)
-  const navItems = [['Home', '#home'], ['Services', '#services'], ['About me', '#about'], ['Portfolio', '#portfolio'], ['Contact Me', '#contact'], ['Blog', '#blog']]
+  const navItems = [['Home', '/'], ['Services', '/services'], ['About me', '/about'], ['Portfolio', '/portfolio'], ['Contact Me', '/contact'], ['Blog', '/blog']]
 
   return (
     <main>
