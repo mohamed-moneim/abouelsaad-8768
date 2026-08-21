@@ -3,12 +3,15 @@
 import Link from 'next/link'
 import { useState } from 'react'
 import useSWR from 'swr'
-import { GitBranch, Mail } from 'lucide-react'
+import { usePathname } from 'next/navigation'
+import { GitBranch, Mail, Menu, X } from 'lucide-react'
 
 const navItems = [['Home', '/'], ['Services', '/services'], ['About me', '/about'], ['Portfolio', '/portfolio'], ['Contact Me', '/contact'], ['Blog', '/blog']] as const
 
 export function SiteHeader() {
-  return <header className="site-header"><Link className="brand" href="/" aria-label="Mohamed Abouelsaad home"><img src="/abouelsaad-logo.png" alt="Mohamed Abouelsaad" /></Link><nav className="nav">{navItems.map(([label, href]) => <Link key={href} href={href}>{label}</Link>)}</nav><Link href="/contact" className="button button-primary hire">Hire Me</Link></header>
+  const pathname = usePathname()
+  const [isOpen, setIsOpen] = useState(false)
+  return <header className="site-header"><Link className="brand" href="/" aria-label="Mohamed Abouelsaad home" onClick={() => setIsOpen(false)}><img src="/abouelsaad-logo.png" alt="Mohamed Abouelsaad" /></Link><nav className={`nav ${isOpen ? 'open' : ''}`} aria-label="Primary navigation">{navItems.map(([label, href]) => <Link key={href} href={href} aria-current={pathname === href ? 'page' : undefined} className={pathname === href ? 'active' : undefined} onClick={() => setIsOpen(false)}>{label}</Link>)}</nav><Link href="/contact" className="button button-primary hire" onClick={() => setIsOpen(false)}>Hire Me</Link><button type="button" className="menu-toggle" aria-label={isOpen ? 'Close navigation menu' : 'Open navigation menu'} aria-expanded={isOpen} onClick={() => setIsOpen((open) => !open)}>{isOpen ? <X size={22} aria-hidden="true" /> : <Menu size={22} aria-hidden="true" />}</button></header>
 }
 
 export function SiteFooter() {
