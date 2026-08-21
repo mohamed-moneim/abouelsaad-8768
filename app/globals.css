@@ -1,7 +1,10 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
 
-:root { --navy: #071a35; --navy-soft: #0b2344; --coral: #ff654c; --cyan: #08d7e5; --lavender: #91a0c2; --white: #f4f3f1; }
+@font-face { font-family: 'JetBrains Mono Local'; src: url('/fonts/jetbrains-mono-latin-400-normal.woff2') format('woff2'); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: 'JetBrains Mono Local'; src: url('/fonts/jetbrains-mono-latin-700-normal.woff2') format('woff2'); font-style: normal; font-weight: 700; font-display: swap; }
+
+:root { --font-jetbrains-mono: 'JetBrains Mono Local', monospace; --navy: #071a35; --navy-soft: #0b2344; --coral: #ff654c; --cyan: #08d7e5; --lavender: #91a0c2; --white: #f4f3f1; }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; background: var(--navy); }
 body { margin: 0; background: var(--navy); color: var(--lavender); font-family: var(--font-jetbrains-mono), monospace; font-weight: 400; }
