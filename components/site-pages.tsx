@@ -1,7 +1,5 @@
 'use client'
 
-'use client'
-
 import Link from 'next/link'
 import { useState } from 'react'
 import { GitBranch, Mail } from 'lucide-react'
