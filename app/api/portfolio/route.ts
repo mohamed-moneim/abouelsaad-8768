@@ -1,0 +1,12 @@
+import { NextRequest, NextResponse } from 'next/server'
+import { Pool } from 'pg'
+import jwt from 'jsonwebtoken'
+import { z } from 'zod'
+
+const pool = new Pool({ connectionString: process.env.DATABASE_URL })
+const projectInput = z.object({ title: z.string().min(2), slug: z.string().regex(/^[a-z0-9-]+$/), description: z.string().min(2), imageUrl: z.string().url().optional(), category: z.enum(['web', 'mobile', 'self']), url: z.string().url().optional() })
+function user(request: NextRequest) { const secret = process.env.BETTER_AUTH_SECRET ?? process.env.JWT_SECRET; const token = request.headers.get('authorization')?.replace('Bearer ', ''); if (!secret || !token) return null; try { return jwt.verify(token, secret) as { id: string; role: string } } catch { return null } }
+async function ensureSchema() { await pool.query('CREATE EXTENSION IF NOT EXISTS pgcrypto'); await pool.query(`CREATE TABLE IF NOT EXISTS portfolio_projects (id uuid PRIMARY KEY DEFAULT gen_random_uuid(), title text NOT NULL, slug text UNIQUE NOT NULL, description text NOT NULL, image_url text, category text NOT NULL CHECK (category IN ('web', 'mobile', 'self')), url text, owner_id uuid NOT NULL, created_at timestamptz NOT NULL DEFAULT now(), updated_at timestamptz NOT NULL DEFAULT now())`) }
+
+export async function GET(request: NextRequest) { await ensureSchema(); const category = request.nextUrl.searchParams.get('category'); const result = category ? await pool.query('SELECT * FROM portfolio_projects WHERE category = $1 ORDER BY created_at DESC', [category]) : await pool.query('SELECT * FROM portfolio_projects ORDER BY created_at DESC'); return NextResponse.json(result.rows) }
+export async function POST(request: NextRequest) { await ensureSchema(); const current = user(request); if (!current || !['admin', 'editor'].includes(current.role)) return NextResponse.json({ error: 'Insufficient permissions' }, { status: 403 }); try { const input = projectInput.parse(await request.json()); const result = await pool.query('INSERT INTO portfolio_projects (title, slug, description, image_url, category, url, owner_id) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *', [input.title, input.slug, input.description, input.imageUrl ?? null, input.category, input.url ?? null, current.id]); return NextResponse.json(result.rows[0], { status: 201 }) } catch (error) { if (error instanceof z.ZodError) return NextResponse.json({ error: 'Invalid input' }, { status: 400 }); return NextResponse.json({ error: 'Could not create project' }, { status: 500 }) } }
