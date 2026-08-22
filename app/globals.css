@@ -3,13 +3,16 @@
 
 @font-face { font-family: 'JetBrains Mono Local'; src: url('/fonts/jetbrains-mono-latin-400-normal.woff2') format('woff2'); font-style: normal; font-weight: 400; font-display: swap; }
 @font-face { font-family: 'JetBrains Mono Local'; src: url('/fonts/jetbrains-mono-latin-700-normal.woff2') format('woff2'); font-style: normal; font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Inter Local'; src: url('/fonts/inter-latin-400-normal.woff2') format('woff2'); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Inter Local'; src: url('/fonts/inter-latin-700-normal.woff2') format('woff2'); font-style: normal; font-weight: 700; font-display: swap; }
 
-:root { --font-jetbrains-mono: 'JetBrains Mono Local', monospace; --navy: #071a35; --navy-soft: #0b2344; --coral: #ff654c; --cyan: #08d7e5; --lavender: #91a0c2; --white: #f4f3f1; }
+:root { --font-inter: 'Inter Local', sans-serif; --font-jetbrains-mono: 'JetBrains Mono Local', monospace; --navy: #071a35; --navy-soft: #0b2344; --coral: #ff654c; --cyan: #08d7e5; --lavender: #91a0c2; --white: #f4f3f1; }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; background: var(--navy); }
 body { margin: 0; background: var(--navy); color: var(--lavender); font-family: var(--font-jetbrains-mono), monospace; font-weight: 400; }
 a { color: inherit; text-decoration: none; }
-h1, h2, h3, h4, h5, h6, .brand strong, .button, .nav, .section-heading h2 { font-family: var(--font-jetbrains-mono), monospace; font-weight: 700; }
+h1, h2, h3, h4, h5, h6, .brand strong, .section-heading h2 { font-family: var(--font-inter), sans-serif; font-weight: 700; letter-spacing: -0.02em; }
+.button, .nav { font-family: var(--font-jetbrains-mono), monospace; font-weight: 700; }
 .mono { font-family: var(--font-jetbrains-mono), monospace; font-weight: 400; }
 main { overflow: hidden; }
 .site-header { min-height: 116px; padding: 18px clamp(20px, 5vw, 88px); display: flex; align-items: center; gap: clamp(18px, 3vw, 52px); position: relative; z-index: 20; border-bottom: 1px solid rgba(145, 160, 194, .14); }
