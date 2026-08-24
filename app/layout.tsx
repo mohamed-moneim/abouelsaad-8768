@@ -1,14 +1,6 @@
-import { Analytics } from '@vercel/analytics/next'
 import Script from 'next/script'
 import type { Metadata, Viewport } from 'next'
-import { JetBrains_Mono } from 'next/font/google'
 import './globals.css'
-
-const jetBrainsMono = JetBrains_Mono({
-  subsets: ['latin'],
-  variable: '--font-jetbrains-mono',
-  display: 'swap',
-})
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://mohamedabouelsaad.cloud'),
@@ -102,7 +94,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
-      <body className={`${jetBrainsMono.variable} antialiased`}>
+      <body className="font-mono antialiased">
         {children}
         {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
           <>
@@ -120,7 +112,6 @@ export default function RootLayout({
             </Script>
           </>
         )}
-        {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
     </html>
   )
