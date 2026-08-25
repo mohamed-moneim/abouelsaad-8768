@@ -24,8 +24,7 @@ export function SectionTitle({ eyebrow, title }: { eyebrow?: string; title: stri
 
 type PortfolioProject = { id: string; title: string; description: string; image_url?: string | null; category: 'web' | 'mobile' | 'self'; url?: string | null }
 type Article = { id: string; slug: string; title: string; excerpt: string; content: string; image_url?: string | null; created_at?: string }
-const apiBase = process.env.NEXT_PUBLIC_API_URL ?? ''
-const fetcher = (path: string) => fetch(`${apiBase}${path}`).then((response) => { if (!response.ok) throw new Error('Content service unavailable'); return response.json() })
+const fetcher = (path: string) => fetch(path).then((response) => { if (!response.ok) throw new Error('Content service unavailable'); return response.json() })
 const articlesFromResponse = (data: Article[] | { articles?: Article[] } | undefined) => Array.isArray(data) ? data : data?.articles ?? []
 
 function PortfolioCard({ project }: { project: PortfolioProject }) {
@@ -79,7 +78,7 @@ export function ContactPage() {
     setStatus('sending')
     setErrorMessage('')
     try {
-      const response = await fetch(`${apiBase}/api/contact`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(form) })
+      const response = await fetch('/api/contact', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(form) })
       const payload = await response.json().catch(() => null)
       if (!response.ok) throw new Error(payload?.error ?? 'Unable to send your message')
       setForm({ name: '', email: '', message: '' })

@@ -3,9 +3,8 @@
 import { FormEvent, useState } from 'react'
 import useSWR from 'swr'
 
-const apiBase = process.env.NEXT_PUBLIC_API_URL ?? ''
 type Project = { id: string; title: string; slug: string; description: string; image_url?: string | null; category: 'web' | 'mobile' | 'self'; url?: string | null }
-const fetchProjects = (token: string) => fetch(`${apiBase}/api/portfolio`, { headers: { Authorization: `Bearer ${token}` } }).then((r) => r.json() as Promise<Project[]>)
+const fetchProjects = (token: string) => fetch(`/api/portfolio`, { headers: { Authorization: `Bearer ${token}` } }).then((r) => r.json() as Promise<Project[]>)
 
 export default function AdminPortfolioPage() {
   const [token, setToken] = useState('')
@@ -16,7 +15,7 @@ export default function AdminPortfolioPage() {
 
   async function login(event: FormEvent) {
     event.preventDefault()
-    const response = await fetch(`${apiBase}/api/auth/login`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(credentials) })
+    const response = await fetch(`/api/auth/login`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(credentials) })
     const result = await response.json()
     if (!response.ok) return setMessage(result.error ?? 'Login failed')
     setToken(result.token)
@@ -25,7 +24,7 @@ export default function AdminPortfolioPage() {
 
   async function createProject(event: FormEvent) {
     event.preventDefault()
-    const response = await fetch(`${apiBase}/api/portfolio`, { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` }, body: JSON.stringify({ ...form, imageUrl: form.imageUrl || undefined, url: form.url || undefined }) })
+    const response = await fetch(`/api/portfolio`, { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` }, body: JSON.stringify({ ...form, imageUrl: form.imageUrl || undefined, url: form.url || undefined }) })
     const result = await response.json()
     if (!response.ok) return setMessage(result.error ?? 'Could not create project')
     setForm({ title: '', slug: '', description: '', imageUrl: '', category: 'web', url: '' })
@@ -34,7 +33,7 @@ export default function AdminPortfolioPage() {
   }
 
   async function removeProject(id: string) {
-    await fetch(`${apiBase}/api/portfolio/${id}`, { method: 'DELETE', headers: { Authorization: `Bearer ${token}` } })
+    await fetch(`/api/portfolio/${id}`, { method: 'DELETE', headers: { Authorization: `Bearer ${token}` } })
     mutate()
   }
 
