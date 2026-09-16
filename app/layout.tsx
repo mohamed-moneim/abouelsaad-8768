@@ -1,6 +1,6 @@
-import Script from 'next/script'
 import type { Metadata, Viewport } from 'next'
 import './globals.css'
+import { GoogleAnalytics } from '@/components/google-analytics'
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://mohamedabouelsaad.cloud'),
@@ -96,22 +96,7 @@ export default function RootLayout({
     <html lang="en" className="dark">
       <body className="font-mono antialiased">
         {children}
-        {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
-          <>
-            <Script
-              src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID}`}
-              strategy="afterInteractive"
-            />
-            <Script id="google-analytics" strategy="afterInteractive">
-              {`
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){window.dataLayer.push(arguments);}
-                gtag('js', new Date());
-                gtag('config', '${process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID}', { anonymize_ip: true });
-              `}
-            </Script>
-          </>
-        )}
+        <GoogleAnalytics measurementId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID ?? ''} />
       </body>
     </html>
   )
